@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { MapPin, Box, ArrowLeft, RefreshCw, Send, AlertCircle, ShieldAlert } from 'lucide-react';
+import { mockItems } from '../seedData';
 
 function ItemDetail() {
   const { id } = useParams();
@@ -36,8 +37,20 @@ function ItemDetail() {
         setMyItems(userItemsRes.data.filter((i) => i.status === 'Available'));
       }
     } catch (err) {
-      console.error(err);
-      setError('Item not found or server connection failed.');
+      console.warn('Fetch item details failed. Using mock client-side fallback:', err);
+      const mockItem = mockItems.find((i) => i._id === id);
+      if (mockItem) {
+        setItem(mockItem);
+        // Load other mock items of user to offer
+        if (token && mockItem.owner?._id !== user?._id) {
+          const userItems = mockItems.filter(
+            (i) => i.owner?._id === user?._id && i.status === 'Available'
+          );
+          setMyItems(userItems);
+        }
+      } else {
+        setError('Item not found or server connection failed.');
+      }
     } finally {
       setLoading(false);
     }

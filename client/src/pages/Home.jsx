@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Search, MapPin, Tag, Box, ArrowRight, Star } from 'lucide-react';
+import { mockItems } from '../seedData';
 
 const CATEGORIES = [
   'All',
@@ -33,8 +34,18 @@ function Home() {
       const response = await axios.get(url, { params });
       setItems(response.data);
     } catch (err) {
-      console.error('Fetch items failed:', err);
-      setError('Could not load items. Ensure the server is online.');
+      console.warn('Fetch items failed. Using mock client-side fallback data:', err);
+      // Fallback to local mock data
+      let filteredMock = mockItems;
+      if (search) {
+        filteredMock = filteredMock.filter((i) =>
+          i.title.toLowerCase().includes(search.toLowerCase())
+        );
+      }
+      if (category && category !== 'All') {
+        filteredMock = filteredMock.filter((i) => i.category === category);
+      }
+      setItems(filteredMock);
     } finally {
       setLoading(false);
     }
