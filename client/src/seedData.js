@@ -3,6 +3,7 @@ export const mockUsers = [
     _id: "60c72b2f9b1d8b2bad000001",
     name: "Alice Smith",
     email: "alice@example.com",
+    password: "password123",
     location: "San Francisco, CA",
     avatar: "https://api.dicebear.com/7.x/initials/svg?seed=Alice%20Smith",
   },
@@ -10,6 +11,7 @@ export const mockUsers = [
     _id: "60c72b2f9b1d8b2bad000002",
     name: "Bob Jones",
     email: "bob@example.com",
+    password: "password123",
     location: "Seattle, WA",
     avatar: "https://api.dicebear.com/7.x/initials/svg?seed=Bob%20Jones",
   },
@@ -17,6 +19,7 @@ export const mockUsers = [
     _id: "60c72b2f9b1d8b2bad000003",
     name: "Clara Davis",
     email: "clara@example.com",
+    password: "password123",
     location: "Austin, TX",
     avatar: "https://api.dicebear.com/7.x/initials/svg?seed=Clara%20Davis",
   }
@@ -112,5 +115,44 @@ export const mockItems = [
       location: "Austin, TX"
     },
     status: "Available"
+  }
+];
+
+export const mockRequests = [
+  {
+    _id: "mock_req_1",
+    requestedItem: {
+      _id: "60c72b2f9b1d8b2bad000011",
+      title: "iPad Pro 11-inch (M1, 128GB)",
+      category: "Electronics",
+      condition: "Like New",
+      images: ["https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=600&auto=format&fit=crop"],
+      status: "Available"
+    },
+    offeredItem: {
+      _id: "60c72b2f9b1d8b2bad000013",
+      title: "Fuji X-T20 Mirrorless Camera (Body Only)",
+      category: "Electronics",
+      condition: "Good",
+      images: ["https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=600&auto=format&fit=crop"],
+      status: "Available"
+    },
+    requester: {
+      _id: "60c72b2f9b1d8b2bad000002",
+      name: "Bob Jones",
+      email: "bob@example.com",
+      avatar: "https://api.dicebear.com/7.x/initials/svg?seed=Bob%20Jones",
+      location: "Seattle, WA"
+    },
+    receiver: {
+      _id: "60c72b2f9b1d8b2bad000001",
+      name: "Alice Smith",
+      email: "alice@example.com",
+      avatar: "https://api.dicebear.com/7.x/initials/svg?seed=Alice%20Smith",
+      location: "San Francisco, CA"
+    },
+    message: "Hey Alice, I would love to trade my Fujifilm camera for your iPad Pro. Let me know if that works for you!",
+    status: "Pending",
+    createdAt: new Date().toISOString()
   }
 ];

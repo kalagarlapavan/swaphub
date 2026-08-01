@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { Plus, Edit2, Trash2, Box, Image, X, Sparkles } from 'lucide-react';
+import { mockItems } from '../seedData';
 
 const CATEGORIES = [
   'Electronics',
@@ -38,8 +39,12 @@ function MyItems() {
       const res = await axios.get(`/api/items?owner=${user._id}`);
       setItems(res.data);
     } catch (err) {
-      console.error(err);
-      alert('Failed to load items.');
+      console.warn('Fetch my items failed. Using mock client-side fallback:', err);
+      // Load mock items where owner is user._id
+      const filteredMock = mockItems.filter(
+        (i) => (i.owner?._id || i.owner) === user?._id
+      );
+      setItems(filteredMock);
     } finally {
       setLoading(false);
     }

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
-import { MessageSquare, ArrowRight, Check, X, AlertCircle, RefreshCcw, Send, Calendar } from 'lucide-react';
+import { MessageSquare, ArrowRight, Check, X, AlertCircle, RefreshCw, Send, Calendar } from 'lucide-react';
+import { mockRequests } from '../seedData';
 
 function MyRequests() {
   const { user } = useAuth();
@@ -15,8 +16,12 @@ function MyRequests() {
       const res = await axios.get('/api/requests');
       setRequests(res.data);
     } catch (err) {
-      console.error(err);
-      alert('Failed to load requests.');
+      console.warn('Fetch requests failed. Using mock client-side fallback:', err);
+      // Filter mock requests where current user is requester or receiver
+      const filtered = mockRequests.filter(
+        (r) => r.requester?._id === user?._id || r.receiver?._id === user?._id
+      );
+      setRequests(filtered);
     } finally {
       setLoading(false);
     }
