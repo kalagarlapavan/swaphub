@@ -1,7 +1,11 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 
-axios.defaults.baseURL = import.meta.env.VITE_API_URL || '';
+let apiBaseUrl = import.meta.env.VITE_API_URL || '';
+if (apiBaseUrl.endsWith('/api')) {
+  apiBaseUrl = apiBaseUrl.slice(0, -4);
+}
+axios.defaults.baseURL = apiBaseUrl;
 
 const AuthContext = createContext();
 
